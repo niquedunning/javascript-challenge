@@ -1,36 +1,36 @@
 // from data.js
 var tableData = data;
 
-// Using d3 to select the table
+// Using d3 to select the table class
 var table = d3.select('table');
 
-// Using d3 to select the table body
+// Using d3 to select the table body class
 var tbody = d3.select('tbody');
 
 
-// Using d3 to append one table row `tr` for each sighting object
+// parsing through data and appending each row of data to <tr> tag
 function buildTable(data) {
     
     data.forEach((ufo) => {
 
     var row = tbody.append("tr");
 
-    // Using `Object.entries` to console.log each sighting's value
+    // Use Object entries to log each entry to the console
     Object.entries(ufo).forEach(([key, value]) => {
        var cell = row.append("td").text(value);
     });
 })};
-
+// call data table function
 buildTable(tableData);
 
 var dropdown = d3.select('#dropdown');
 dropdown.on('click', function() {
     
-    // Select the dropdown
+    // Select dropdown ID
     var dropdownoptions = d3.select('#dropdown').node().value;
-
+    //Select criteria ID and start it blank
     d3.select('#criteria').node().value = '';
-
+    //Use switch function to determine the avilable criteria and determine their place holders
     switch(dropdownoptions) {
         case 'date':
             place = '1/11/2010';
@@ -56,58 +56,58 @@ dropdown.on('click', function() {
             place = '';
             break;
     }
+    //attach placeholders to each criteria
     d3.select('#criteria').attr('placeholder', place);
+    //Create a label for dropdown options
     d3.select('label').attr('for',dropdownoptions).text(`Enter a value for ${dropdownoptions}: `);
 
 })
 
-// Select the button
+// Select the button for form
 var button = d3.select('button');
-// console.log(button);
+
 
 // Select the form
 var form = d3.select('form');
-// console.log(form);
 
 // Create event handler 
 button.on("click", runEnter);
 
-// Complete the event handler function for the form
+//event handler function for form
 function runEnter() {
     
-    // Prevent the page from refreshing
+    // Prevent page refresh
     d3.event.preventDefault();
     
-    // Select the dropdown
-    var dropdownselection = d3.select('#dropdown').node().value;
+    // Select the dropdown ID 
+    var dropdownoptions = d3.select('#dropdown').node().value;
 
-    // Select the input element and get the raw HTML node
+    //Create Input return
     var inputElement = d3.select("#criteria");
   
-    // Get the value property of the input element
+    // grab the value property for input
     var inputValue = inputElement.property("value").toLowerCase();
-    // console.log(inputValue);
-
+   
+    //create conditional function for each criteria
     function ufofilter(ufo){
-        if (dropdownselection === 'date' && ufo.datetime === inputValue){
+        if (dropdownoptions === 'date' && ufo.datetime === inputValue){
             return ufo.datetime;
-        } else if (dropdownselection === 'city' && ufo.city === inputValue){
+        } else if (dropdownoptions === 'city' && ufo.city === inputValue){
             return ufo.city;
-        } else if (dropdownselection === 'state' && ufo.state === inputValue){
+        } else if (dropdownoptions === 'state' && ufo.state === inputValue){
             return ufo.state;
-        } else if (dropdownselection === 'country' && ufo.country === inputValue){
+        } else if (dropdownoptions === 'country' && ufo.country === inputValue){
             return ufo.country;
-        } else if (dropdownselection === 'shape' && ufo.shape === inputValue){
+        } else if (dropdownoptions === 'shape' && ufo.shape === inputValue){
             return ufo.shape;
         }
     }
-
+    //create var for the filtered data
     var filteredData = tableData.filter(ufofilter);
-    // console.log(filteredData);
 
     // clearing out all table rows
     tbody.html('');
 
-    // append filtered date to the table
+    // append filtered data to the table
     buildTable(filteredData);
 }
