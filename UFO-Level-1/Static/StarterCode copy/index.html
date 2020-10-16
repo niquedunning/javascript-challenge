@@ -36,9 +36,17 @@
                 <form>
                   <div class="form-group">
                     <ul class="list-group" id="filters">
+                      <select name="dropdown" id="dropdown">
+                        <option value="selection">Select filter...</option>
+                        <option value="date">Date</option>
+                        <option value="city">City</option>
+                        <option value="state">State</option>
+                        <option value="country">Country</option>
+                        <option value="shape">Shape</option>
+                      </select>
                       <li class="filter list-group-item">
-                        <label for="date">Enter a Date</label>
-                        <input class="form-control" id="datetime" type="text" placeholder="1/11/2011">
+                        <label for="criteria">Enter Criteria Below:</label>
+                        <input class="form-control" id="criteria" type="text">
                       </li>
                     </ul>
                   </div>
